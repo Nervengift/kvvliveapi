@@ -55,7 +55,7 @@ def search_by_name(name):
     """ search for stops by name
         returns a list of Stops
     """
-    json = query("stops/byname/" + name) #TODO: url encode
+    json = _query("stops/byname/" + name) #TODO: url encode
     stops = []
     if json:
         for stop in json["stops"]:
@@ -66,7 +66,7 @@ def search_by_latlon(lat, lon):
     """ search for a stops by latitude and longitude
         returns a list of Stops
     """
-    json = query("stops/bylatlon/" + lat + "/" + lon)
+    json = _query("stops/bylatlon/" + lat + "/" + lon)
     stops = []
     if json:
         for stop in json["stops"]:
@@ -77,7 +77,7 @@ def get_departures(id, max_info=10):
     """ gets departures for a given stop id
         optionally set the maximum number of entries 
     """
-    json = query("departures/bystop/" + id + "?maxInfo=" + max_info)
+    json = _query("departures/bystop/" + id + "?maxInfo=" + max_info)
     departures = []
     if json:
         for dep in json["departures"]:

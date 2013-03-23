@@ -44,6 +44,14 @@ def search_by_name(name):
             stops.append(Stop.from_json(stop))
     return stops
 
+def search_by_latlon(lat, lon):
+    json = query("stops/bylatlon/" + lat + "/" + lon)
+    stops = []
+    if json:
+        for stop in json["stops"]:
+            stops.append(Stop.from_json(stop))
+    return stops
+
 
 if __name__ == "__main__":
     for stop in search_by_name("Marktplatz"):

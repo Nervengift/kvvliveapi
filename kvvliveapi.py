@@ -16,6 +16,21 @@ class Stop:
     def from_json(json):
         return Stop(json["name"], json["id"], json["lat"], json["lon"])
 
+class Departure:
+    def __init__(self, route, destination, direction, time, vehicle_type, lowfloor, realtime, traction, stop_position):
+        self.route = route
+        self.destination = destination
+        self.direction = direction
+        self.time = time #TODO: to timestamp?
+        self.vehicle_type = vehicle_type
+        self.lowfloor = lowfloor
+        self.realtime = realtime
+        self.traction = traction
+        self.stop_position = stop_position
+
+    def from_json(json):
+        return Departure(json["route"], json["destionation"], json["direction"], json["time"], json["vehicleType"], json["lowfloor"], json["realtime"], json["traction"], json["stopPosition"])
+
 
 def query(path):
     url = API_BASE + path + "?key=" + API_KEY
@@ -51,6 +66,14 @@ def search_by_latlon(lat, lon):
         for stop in json["stops"]:
             stops.append(Stop.from_json(stop))
     return stops
+
+def get_departures(id, max_info=10):
+    json = query("departures/bystop/" + id + "?maxInfo=" + max_info)
+    departures = []
+    if json:
+        for dep in json["departures"]:
+            departures.append(dep)
+    return departures
 
 
 if __name__ == "__main__":

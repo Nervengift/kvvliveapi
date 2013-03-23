@@ -53,7 +53,7 @@ def _query(path):
 
 def search_by_name(name):
     """ search for stops by name
-        returns a list of Stops
+        returns a list of Stop objects
     """
     json = _query("stops/byname/" + name) #TODO: url encode
     stops = []
@@ -64,7 +64,7 @@ def search_by_name(name):
 
 def search_by_latlon(lat, lon):
     """ search for a stops by latitude and longitude
-        returns a list of Stops
+        returns a list of Stop objectss
     """
     json = _query("stops/bylatlon/" + lat + "/" + lon)
     stops = []
@@ -76,6 +76,7 @@ def search_by_latlon(lat, lon):
 def get_departures(id, max_info=10):
     """ gets departures for a given stop id
         optionally set the maximum number of entries 
+        returns a list of Departure objects
     """
     json = _query("departures/bystop/" + id + "?maxInfo=" + max_info)
     departures = []

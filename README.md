@@ -3,7 +3,7 @@ kvvliveapi
 
 Python bindings für die API, die von der KVV Live Webapp benutz wird. 
 
-API documentation
+API Dokumentation
 =================
 
 Für jeden Request muss der API-Key als GET-Parameter *key* mit übergeben werden. Der Schüssel ist 377d840e54b59adbe53608ba1aad70e8&_=1364048917455
@@ -12,11 +12,11 @@ Die url setzt sich zusammen aus *http://live.kvv.de/webapp/*, dann der Teil für
 
 ##Suche
 
-Die Suche liefert ein JSON-Objekt zurück, dass auf oberster Ebene nur das Attribut *stops* hat. Es enthält eine Liste von Haltestellen mit je den Attributen *id*, *name*, *lat* und *lon*.
+Die Suche liefert ein JSON-Objekt zurück, dass auf oberster Ebene nur das Attribut *stops* hat. Es enthält eine Liste von Haltestellen mit je den Attributen *id*, *name*, *lat* und *lon*)
 
 ###Suche nach Lat/Lon
 
-Die Anfrage ist *API_BASE/stops/bylatlon/LAT/LON?key=API_KEY* (ersetze LAT und LON duchr die gewünschten Werte.
+Die Anfrage ist *API_BASE/stops/bylatlon/LAT/LON?key=API_KEY* (ersetze LAT und LON durch die gewünschten Werte)
 
 ###Suche nach Name
 

@@ -32,7 +32,7 @@ class Departure:
         return Departure(json["route"], json["destionation"], json["direction"], json["time"], json["vehicleType"], json["lowfloor"], json["realtime"], json["traction"], json["stopPosition"])
 
 
-def query(path):
+def _query(path):
     url = API_BASE + path + "?key=" + API_KEY
     req = urllib.request.Request(url)
 
@@ -52,6 +52,9 @@ def query(path):
     return json.loads(handle.read().decode())
 
 def search_by_name(name):
+    """ search for stops by name
+        returns a list of Stops
+    """
     json = query("stops/byname/" + name) #TODO: url encode
     stops = []
     if json:
@@ -60,6 +63,9 @@ def search_by_name(name):
     return stops
 
 def search_by_latlon(lat, lon):
+    """ search for a stops by latitude and longitude
+        returns a list of Stops
+    """
     json = query("stops/bylatlon/" + lat + "/" + lon)
     stops = []
     if json:
@@ -68,6 +74,9 @@ def search_by_latlon(lat, lon):
     return stops
 
 def get_departures(id, max_info=10):
+    """ gets departures for a given stop id
+        optionally set the maximum number of entries 
+    """
     json = query("departures/bystop/" + id + "?maxInfo=" + max_info)
     departures = []
     if json:
@@ -78,4 +87,4 @@ def get_departures(id, max_info=10):
 
 if __name__ == "__main__":
     for stop in search_by_name("Marktplatz"):
-        print(stop.name)
+        print(stop.name + " " + stop.id)

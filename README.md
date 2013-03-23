@@ -1,4 +1,5 @@
 kvvliveapi
 ==========
 
-KVV live API bindings
+Python bindings to use the underlying API of the KVV webapp
+

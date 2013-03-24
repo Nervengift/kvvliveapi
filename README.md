@@ -8,7 +8,7 @@ Wenn jemand bindings für andere Sprachen schreiben will: hier die Dokumentation
 API Dokumentation
 =================
 
-Für jeden Request muss der API-Key als GET-Parameter *key* mit übergeben werden. Der Schüssel ist 377d840e54b59adbe53608ba1aad70e8&_=1364048917455
+Für jeden Request muss der API-Key als GET-Parameter *key* mit übergeben werden. Der Schüssel ist 377d840e54b59adbe53608ba1aad70e8
 
 Die url setzt sich zusammen aus *http://live.kvv.de/webapp/*, dann der Teil für die Anfrage, wie unten erklärt, dann noch ein *?key=API_KEY* (key s.o.)
 

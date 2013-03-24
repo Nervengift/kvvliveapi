@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
 import urllib.request
+from urllib.parse import quote_plus,urlencode
 import json
+import sys
 
-API_KEY = "377d840e54b59adbe53608ba1aad70e8&_=1364044820820"
+API_KEY = "377d840e54b59adbe53608ba1aad70e8"
 API_BASE = "http://live.kvv.de/webapp/"
 
 class Stop:
@@ -29,11 +31,15 @@ class Departure:
         self.stop_position = stop_position
 
     def from_json(json):
-        return Departure(json["route"], json["destionation"], json["direction"], json["time"], json["vehicleType"], json["lowfloor"], json["realtime"], json["traction"], json["stopPosition"])
+        return Departure(json["route"], json["destination"], json["direction"], json["time"], json["vehicleType"], json["lowfloor"], json["realtime"], json["traction"], json["stopPosition"])
+
+    def pretty_format(self):
+        return self.time + ("  " if self.realtime else "* ") + self.route + " " + self.destination
 
 
-def _query(path):
-    url = API_BASE + path + "?key=" + API_KEY
+def _query(path, params = {}):
+    params["key"] = API_KEY
+    url = API_BASE + path + "?" + urlencode(params)
     req = urllib.request.Request(url)
 
     try:
@@ -55,7 +61,7 @@ def search_by_name(name):
     """ search for stops by name
         returns a list of Stop objects
     """
-    json = _query("stops/byname/" + name) #TODO: url encode
+    json = _query("stops/byname/" + quote_plus(name)) #TODO: url encode
     stops = []
     if json:
         for stop in json["stops"]:
@@ -78,14 +84,23 @@ def get_departures(id, max_info=10):
         optionally set the maximum number of entries 
         returns a list of Departure objects
     """
-    json = _query("departures/bystop/" + id + "?maxInfo=" + max_info)
+    json = _query("departures/bystop/" + id, {"maxInfo" : str(max_info)})
     departures = []
     if json:
         for dep in json["departures"]:
-            departures.append(dep)
+            departures.append(Departure.from_json(dep))
     return departures
 
 
 if __name__ == "__main__":
-    for stop in search_by_name("Marktplatz"):
-        print(stop.name + " " + stop.id)
+    if len(sys.argv) == 3 and sys.argv[1] == "search":
+        for stop in search_by_name(sys.argv[2]):
+            print(stop.name + " (" + stop.id + ")")
+    elif len(sys.argv) == 4 and sys.argv[1] == "search":
+        for stop in search_by_latlon(sys.argv[2], sys.argv[3]):
+            print(stop.name + " (" + stop.id + ")")
+    elif len(sys.argv) == 3 and sys.argv[1] == "departures":
+        for dep in get_departures(sys.argv[2]):
+            print(dep.pretty_format())
+    else:
+        print("No such command. Try \"search <name>\" or \"departures <stop id>\"")

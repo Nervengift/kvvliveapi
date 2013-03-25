@@ -24,9 +24,20 @@ Die Anfrage ist *API_BASE/stops/bylatlon/LAT/LON?key=API_KEY* (ersetze LAT und L
 
 Die Anfrage ist *API_BASE/stops/byname/NAME?key=API_KEY* (ersetze NAME durch die gesuchten Haltestellennamen (url-Encoding nicht vergessen))
 
+###Suche nach Haltestellen-ID
+
+Die Anfrage ist *API_BASE/stops/bystop/HALTESTELLEN_ID?key=API_KEY* (ersetze HALTESTELLEN_ID durch die ID der gewünschten Haltestelle)
+
 
 ##Abfahrtszeiten
 
+Das JSON hat auf der obersten Ebene die Attribute *timestamp*, *stopName* und *departures*. Letzeres enthält eine Liste von Abfahrten mit den Attributen *route* (Linie), *destination*, *direction* (1 oder 2), *time*, *vehicleType* (immer null???), *lowfloor* (true oder false), *realtime* (ob Echtzeitwerte vorhanden sind), *traction* (Fahrzeugnummer) und *stopPosition* (Gleis?).
+
+###Abfahrt nach Haltestelle
+
 Die Anfrage ist *API_BASE/departures/bystop/HALTESTELLEN_ID?maxInfos=10&key=API_KEY* (ersetze HALTESTELLEN_ID durch die ID der gewünschten Haltestelle, *maxInfos* kann ebenfalls angepasst werden)
 
-Das JSON hat auf der obersten Ebene die Attribute *timestamp*, *stopName* und *departures*. Letzeres enthält eine Liste von Abfahrten mit den Attributen *route* (Linie), *destination*, *direction* (1 oder 2), *time*, *vehicleType* (immer null???), *lowfloor* (true oder false), *realtime* (ob Echtzeitwerte vorhanden sind), *traction* (Fahrzeugnummer) und *stopPosition* (Gleis?).
+###Abfahrt nach Haltestelle und Linie
+
+Die Anfrage ist *API_BASE/departures/byroute/LINIE/HALTESTELLEN_ID?maxInfos=10&key=API_KEY* (LINIE ist z.B. *S2*, Haltestelle wie oben)
+

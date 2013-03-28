@@ -57,27 +57,32 @@ def _query(path, params = {}):
 
     return json.loads(handle.read().decode())
 
-def search_by_name(name):
-    """ search for stops by name
-        returns a list of Stop objects
-    """
-    json = _query("stops/byname/" + quote_plus(name)) #TODO: url encode
+def _search(query):
+    json = _query(query)
     stops = []
     if json:
         for stop in json["stops"]:
             stops.append(Stop.from_json(stop))
     return stops
 
+def search_by_name(name):
+    """ search for stops by name
+        returns a list of Stop objects
+    """
+    return _search("stops/byname/" + quote_plus(name))
+
 def search_by_latlon(lat, lon):
     """ search for a stops by latitude and longitude
         returns a list of Stop objectss
     """
-    json = _query("stops/bylatlon/" + lat + "/" + lon)
-    stops = []
-    if json:
-        for stop in json["stops"]:
-            stops.append(Stop.from_json(stop))
-    return stops
+    return _search("stops/bylatlon/" + lat + "/" + lon)
+
+def search_by_id(id):
+    """ search for a stop by its id
+        returns a list that should contain only one stop
+    """
+    return [Stop.from_json(_query("stops/bystop/" + id))]
+
 
 def get_departures(id, max_info=10):
     """ gets departures for a given stop id
@@ -94,8 +99,12 @@ def get_departures(id, max_info=10):
 
 if __name__ == "__main__":
     if len(sys.argv) == 3 and sys.argv[1] == "search":
-        for stop in search_by_name(sys.argv[2]):
-            print(stop.name + " (" + stop.id + ")")
+        if sys.argv[2].startswith("de:"):
+            for stop in search_by_id(sys.argv[2]):
+                print(stop.name + " (" + stop.id + ")")
+        else:
+            for stop in search_by_name(sys.argv[2]):
+                print(stop.name + " (" + stop.id + ")")
     elif len(sys.argv) == 4 and sys.argv[1] == "search":
         for stop in search_by_latlon(sys.argv[2], sys.argv[3]):
             print(stop.name + " (" + stop.id + ")")
@@ -103,4 +112,4 @@ if __name__ == "__main__":
         for dep in get_departures(sys.argv[2]):
             print(dep.pretty_format())
     else:
-        print("No such command. Try \"search <name>\" or \"departures <stop id>\"")
+        print("No such command. Try \"search <name>/<id>/<lat> <lon>\" or \"departures <stop id> [<route>]\"")

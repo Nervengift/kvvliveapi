@@ -40,6 +40,7 @@ class Departure:
 def _query(path, params = {}):
     params["key"] = API_KEY
     url = API_BASE + path + "?" + urlencode(params)
+    #print(url)
     req = urllib.request.Request(url)
 
     try:
@@ -83,18 +84,28 @@ def search_by_id(id):
     """
     return [Stop.from_json(_query("stops/bystop/" + id))]
 
+def _get_departures(query, max_info=10):
+    json = _query(query, {"maxInfo" : str(max_info)})
+    departures = []
+    if json:
+        for dep in json["departures"]:
+            departures.append(Departure.from_json(dep))
+    return departures
+
 
 def get_departures(id, max_info=10):
     """ gets departures for a given stop id
         optionally set the maximum number of entries 
         returns a list of Departure objects
     """
-    json = _query("departures/bystop/" + id, {"maxInfo" : str(max_info)})
-    departures = []
-    if json:
-        for dep in json["departures"]:
-            departures.append(Departure.from_json(dep))
-    return departures
+    return _get_departures("departures/bystop/" + id, max_info)
+
+def get_departures_by_route(id, route, max_info=10):
+    """ gets departures for a given stop id and route
+        optionally set the maximum number of entries 
+        returns a list of Departure objects
+    """
+    return _get_departures("departures/byroute/" + route + "/" + id, max_info)
 
 
 if __name__ == "__main__":
@@ -110,6 +121,9 @@ if __name__ == "__main__":
             print(stop.name + " (" + stop.id + ")")
     elif len(sys.argv) == 3 and sys.argv[1] == "departures":
         for dep in get_departures(sys.argv[2]):
+            print(dep.pretty_format())
+    elif len(sys.argv) == 4 and sys.argv[1] == "departures":
+        for dep in get_departures_by_route(sys.argv[2], sys.argv[3]):
             print(dep.pretty_format())
     else:
         print("No such command. Try \"search <name>/<id>/<lat> <lon>\" or \"departures <stop id> [<route>]\"")

@@ -9,9 +9,9 @@ API_KEY = "377d840e54b59adbe53608ba1aad70e8"
 API_BASE = "http://live.kvv.de/webapp/"
 
 class Stop:
-    def __init__(self, name, id, lat, lon):
+    def __init__(self, name, stop_id, lat, lon):
         self.name = name
-        self.id = id
+        self.stop_id = stop_id
         self.lat = lat
         self.lon = lon
 
@@ -78,11 +78,11 @@ def search_by_latlon(lat, lon):
     """
     return _search("stops/bylatlon/" + lat + "/" + lon)
 
-def search_by_id(id):
-    """ search for a stop by its id
+def search_by_stop_id(stop_id):
+    """ search for a stop by its stop_id
         returns a list that should contain only one stop
     """
-    return [Stop.from_json(_query("stops/bystop/" + id))]
+    return [Stop.from_json(_query("stops/bystop/" + stop_id))]
 
 def _get_departures(query, max_info=10):
     json = _query(query, {"maxInfo" : str(max_info)})
@@ -93,32 +93,32 @@ def _get_departures(query, max_info=10):
     return departures
 
 
-def get_departures(id, max_info=10):
-    """ gets departures for a given stop id
+def get_departures(stop_id, max_info=10):
+    """ gets departures for a given stop stop_id
         optionally set the maximum number of entries 
         returns a list of Departure objects
     """
-    return _get_departures("departures/bystop/" + id, max_info)
+    return _get_departures("departures/bystop/" + stop_id, max_info)
 
-def get_departures_by_route(id, route, max_info=10):
-    """ gets departures for a given stop id and route
+def get_departures_by_route(stop_id, route, max_info=10):
+    """ gets departures for a given stop stop_id and route
         optionally set the maximum number of entries 
         returns a list of Departure objects
     """
-    return _get_departures("departures/byroute/" + route + "/" + id, max_info)
+    return _get_departures("departures/byroute/" + route + "/" + stop_id, max_info)
 
 
 if __name__ == "__main__":
     if len(sys.argv) == 3 and sys.argv[1] == "search":
         if sys.argv[2].startswith("de:"):
-            for stop in search_by_id(sys.argv[2]):
-                print(stop.name + " (" + stop.id + ")")
+            for stop in search_by_stop_id(sys.argv[2]):
+                print(stop.name + " (" + stop.stop_id + ")")
         else:
             for stop in search_by_name(sys.argv[2]):
-                print(stop.name + " (" + stop.id + ")")
+                print(stop.name + " (" + stop.stop_id + ")")
     elif len(sys.argv) == 4 and sys.argv[1] == "search":
         for stop in search_by_latlon(sys.argv[2], sys.argv[3]):
-            print(stop.name + " (" + stop.id + ")")
+            print(stop.name + " (" + stop.stop_id + ")")
     elif len(sys.argv) == 3 and sys.argv[1] == "departures":
         for dep in get_departures(sys.argv[2]):
             print(dep.pretty_format())
@@ -126,4 +126,4 @@ if __name__ == "__main__":
         for dep in get_departures_by_route(sys.argv[2], sys.argv[3]):
             print(dep.pretty_format())
     else:
-        print("No such command. Try \"search <name>/<id>/<lat> <lon>\" or \"departures <stop id> [<route>]\"")
+        print("No such command. Try \"search <name>/<stop_id>/<lat> <lon>\" or \"departures <stop stop_id> [<route>]\"")

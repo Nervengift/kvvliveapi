@@ -3,6 +3,7 @@
 import urllib.request
 from urllib.parse import quote_plus,urlencode
 import json
+import re
 import sys
 
 API_KEY = "377d840e54b59adbe53608ba1aad70e8"
@@ -17,6 +18,7 @@ class Stop:
 
     def from_json(json):
         return Stop(json["name"], json["id"], json["lat"], json["lon"])
+
 
 class Departure:
     def __init__(self, route, destination, direction, time, vehicle_type, lowfloor, realtime, traction, stop_position):
@@ -43,18 +45,17 @@ def _query(path, params = {}):
     #print(url)
     req = urllib.request.Request(url)
 
-    try:
-        handle = urllib.request.urlopen(req)
-    except IOError as e:
-        print("error!")
-        if hasattr(e, "code"):
-            if e.code != 403:
-                print("We got another error")
-                print(e.code)
-            else:
-                print(e.headers)
-                print(e.headers["www-authenticate"])
-        return None; #TODO: Schoenere Fehlerbehandlung
+    #try:
+    handle = urllib.request.urlopen(req)
+    #except IOError as e:
+    #    if hasattr(e, "code"):
+    #        if e.code != 403:
+    #            print("We got another error")
+    #            print(e.code)
+    #        else:
+    #            print(e.headers)
+    #            print(e.headers["www-authenticate"])
+    #    return None; #TODO: Schoenere Fehlerbehandlung
 
     return json.loads(handle.read().decode())
 
@@ -67,19 +68,19 @@ def _search(query):
     return stops
 
 def search_by_name(name):
-    """ search for stops by name
+    """ Search for stops by name
         returns a list of Stop objects
     """
     return _search("stops/byname/" + quote_plus(name))
 
 def search_by_latlon(lat, lon):
-    """ search for a stops by latitude and longitude
+    """ Search for stops by latitude and longitude
         returns a list of Stop objectss
     """
     return _search("stops/bylatlon/" + lat + "/" + lon)
 
 def search_by_stop_id(stop_id):
-    """ search for a stop by its stop_id
+    """ Search for a stop by its stop_id
         returns a list that should contain only one stop
     """
     return [Stop.from_json(_query("stops/bystop/" + stop_id))]
@@ -94,16 +95,14 @@ def _get_departures(query, max_info=10):
 
 
 def get_departures(stop_id, max_info=10):
-    """ gets departures for a given stop stop_id
+    """ Return a list of Departure objects for a given stop stop_id
         optionally set the maximum number of entries 
-        returns a list of Departure objects
     """
     return _get_departures("departures/bystop/" + stop_id, max_info)
 
 def get_departures_by_route(stop_id, route, max_info=10):
-    """ gets departures for a given stop stop_id and route
+    """ Return a list of Departure objects for a given stop stop_id and route
         optionally set the maximum number of entries 
-        returns a list of Departure objects
     """
     return _get_departures("departures/byroute/" + route + "/" + stop_id, max_info)
 

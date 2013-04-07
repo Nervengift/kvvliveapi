@@ -106,23 +106,33 @@ def get_departures_by_route(stop_id, route, max_info=10):
     """
     return _get_departures("departures/byroute/" + route + "/" + stop_id, max_info)
 
+def _errorstring(e):
+    if hasattr(e, "code"):
+        return {400: "invalid stop id or route",
+                404: "not found"}.get(e.code, "http error " + str(e.code))
+    else:
+        return "unknown error"
+
 
 if __name__ == "__main__":
-    if len(sys.argv) == 3 and sys.argv[1] == "search":
-        if sys.argv[2].startswith("de:"):
-            for stop in search_by_stop_id(sys.argv[2]):
+    try:
+        if len(sys.argv) == 3 and sys.argv[1] == "search":
+            if sys.argv[2].startswith("de:"):
+                for stop in search_by_stop_id(sys.argv[2]):
+                    print(stop.name + " (" + stop.stop_id + ")")
+            else:
+                for stop in search_by_name(sys.argv[2]):
+                    print(stop.name + " (" + stop.stop_id + ")")
+        elif len(sys.argv) == 4 and sys.argv[1] == "search":
+            for stop in search_by_latlon(sys.argv[2], sys.argv[3]):
                 print(stop.name + " (" + stop.stop_id + ")")
+        elif len(sys.argv) == 3 and sys.argv[1] == "departures":
+            for dep in get_departures(sys.argv[2]):
+                print(dep.pretty_format())
+        elif len(sys.argv) == 4 and sys.argv[1] == "departures":
+            for dep in get_departures_by_route(sys.argv[2], sys.argv[3]):
+                print(dep.pretty_format())
         else:
-            for stop in search_by_name(sys.argv[2]):
-                print(stop.name + " (" + stop.stop_id + ")")
-    elif len(sys.argv) == 4 and sys.argv[1] == "search":
-        for stop in search_by_latlon(sys.argv[2], sys.argv[3]):
-            print(stop.name + " (" + stop.stop_id + ")")
-    elif len(sys.argv) == 3 and sys.argv[1] == "departures":
-        for dep in get_departures(sys.argv[2]):
-            print(dep.pretty_format())
-    elif len(sys.argv) == 4 and sys.argv[1] == "departures":
-        for dep in get_departures_by_route(sys.argv[2], sys.argv[3]):
-            print(dep.pretty_format())
-    else:
-        print("No such command. Try \"search <name>/<stop_id>/<lat> <lon>\" or \"departures <stop stop_id> [<route>]\"")
+            print("No such command. Try \"search <name>/<stop_id>/<lat> <lon>\" or \"departures <stop stop_id> [<route>]\"")
+    except IOError as e:
+       print(_errorstring(e), file=sys.stderr) 

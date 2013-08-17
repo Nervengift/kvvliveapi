@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# author: Clemens "Nervengift"
 
 import urllib.request
 from urllib.parse import quote_plus,urlencode
@@ -33,10 +34,13 @@ class Departure:
         self.stop_position = stop_position
 
     def from_json(json):
-        return Departure(json["route"], json["destination"], json["direction"], json["time"], json["vehicleType"], json["lowfloor"], json["realtime"], json["traction"], json["stopPosition"])
+        time = json["time"]
+        if time == "0":
+            time = "sofort"
+        return Departure(json["route"], json["destination"], json["direction"], time, json["vehicleType"], json["lowfloor"], json["realtime"], json["traction"], json["stopPosition"])
 
     def pretty_format(self):
-        return self.time + ("  " if self.realtime else "* ") + self.route + " " + self.destination
+        return self.time + ("  " if self.realtime else "* ") + (" " if self.time != "sofort" else "") + self.route + " " + self.destination
 
 
 def _query(path, params = {}):

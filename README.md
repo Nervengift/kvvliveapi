@@ -33,7 +33,9 @@ Diese Suche liefert nur das Haltestellen-JSON OHNE das Objekt mit dem *stops*-At
 
 ##Abfahrtszeiten
 
-Das JSON hat auf der obersten Ebene die Attribute *timestamp*, *stopName* und *departures*. Letzeres enthält eine Liste von Abfahrten mit den Attributen *route* (Linie), *destination*, *direction* (1 oder 2), *time*, *vehicleType* (immer null???), *lowfloor* (true oder false), *realtime* (ob Echtzeitwerte vorhanden sind), *traction* (Fahrzeugnummer) und *stopPosition* (Gleis?).
+**ACHTUNG: hier gab es in letzer Zeit ein paar Änderungen und Attribute sind rausgeflogen. Insbesondere lässt sich die Nummer des Fahrzeugs nicht mehr herausfinden. Das Attribut *traction* wurde neu belegt!**
+
+Das JSON hat auf der obersten Ebene die Attribute *timestamp*, *stopName* und *departures*. Letzeres enthält eine Liste von Abfahrten mit den Attributen *route* (Linie), *destination*, *direction* (1 oder 2), *time*, *lowfloor* (true oder false), *realtime* (ob Echtzeitwerte vorhanden sind), und *traction* (0 oder 2, Doppeltraktion???).
 
 ###Abfahrt nach Haltestelle
 

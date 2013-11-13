@@ -22,22 +22,20 @@ class Stop:
 
 
 class Departure:
-    def __init__(self, route, destination, direction, time, vehicle_type, lowfloor, realtime, traction, stop_position):
+    def __init__(self, route, destination, direction, time, lowfloor, realtime, traction):
         self.route = route
         self.destination = destination
         self.direction = direction
         self.time = time #TODO: to timestamp?
-        self.vehicle_type = vehicle_type
         self.lowfloor = lowfloor
         self.realtime = realtime
         self.traction = traction
-        self.stop_position = stop_position
 
     def from_json(json):
         time = json["time"]
         if time == "0":
             time = "sofort"
-        return Departure(json["route"], json["destination"], json["direction"], time, json["vehicleType"], json["lowfloor"], json["realtime"], json["traction"], json["stopPosition"])
+        return Departure(json["route"], json["destination"], json["direction"], time, json["lowfloor"], json["realtime"], json["traction"])
 
     def pretty_format(self):
         return self.time + ("  " if self.realtime else "* ") + (" " if self.time != "sofort" else "") + self.route + " " + self.destination

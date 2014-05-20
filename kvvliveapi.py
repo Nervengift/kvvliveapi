@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 # author: Clemens "Nervengift"
 
-import urllib.request
-from urllib.parse import quote_plus,urlencode
+try:
+    import urllib.request as _urllib
+    from urllib.parse import quote_plus,urlencode
+except ImportError:
+    import urllib2 as _urllib
+    from urllib import quote_plus,urlencode
+
 import json
 import re
 import sys
@@ -17,6 +22,7 @@ class Stop:
         self.lat = lat
         self.lon = lon
 
+    @staticmethod
     def from_json(json):
         return Stop(json["name"], json["id"], json["lat"], json["lon"])
 
@@ -31,6 +37,7 @@ class Departure:
         self.realtime = realtime
         self.traction = traction
 
+    @staticmethod
     def from_json(json):
         time = json["time"]
         if time == "0":
@@ -45,10 +52,10 @@ def _query(path, params = {}):
     params["key"] = API_KEY
     url = API_BASE + path + "?" + urlencode(params)
     #print(url)
-    req = urllib.request.Request(url)
+    req = _urllib.Request(url)
 
     #try:
-    handle = urllib.request.urlopen(req)
+    handle = _urllib.urlopen(req)
     #except IOError as e:
     #    if hasattr(e, "code"):
     #        if e.code != 403:
@@ -59,7 +66,7 @@ def _query(path, params = {}):
     #            print(e.headers["www-authenticate"])
     #    return None; #TODO: Schoenere Fehlerbehandlung
 
-    return json.loads(handle.read().decode())
+    return json.loads(handle.read().decode("utf8"))
 
 def _search(query):
     json = _query(query)
@@ -137,4 +144,4 @@ if __name__ == "__main__":
         else:
             print("No such command. Try \"search <name>/<stop_id>/<lat> <lon>\" or \"departures <stop stop_id> [<route>]\"")
     except IOError as e:
-       print(_errorstring(e), file=sys.stderr) 
+       sys.stderr.write("{}\n".format(_errorstring(e)));

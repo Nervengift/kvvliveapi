@@ -73,8 +73,13 @@ class Departure:
             time = "sofort"
         return Departure(json["route"], json["destination"], json["direction"], time, json["lowfloor"], json["realtime"], json["traction"])
 
-    def pretty_format(self):
-        return self.timestr + ("  " if self.realtime else "* ") + (" " if self.timestr != "sofort" else "") + self.route + " " + self.destination
+    def pretty_format(self, alwaysrelative=False):
+        if alwaysrelative and self.timestr != "sofort":
+            mins = int((self.time - datetime.now()).total_seconds() / 60)
+            timestr = "{:>3} min".format(mins)
+        else:
+            timestr = self.timestr
+        return timestr + ("  " if self.realtime else "* ") + (" " if timestr != "sofort" else "") + self.route + " " + self.destination
 
 
 def _query(path, params = {}):

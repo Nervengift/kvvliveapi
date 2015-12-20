@@ -130,7 +130,7 @@ def search_by_stop_id(stop_id):
     return [Stop.from_json(_query("stops/bystop/" + stop_id))]
 
 def _get_departures(query, max_info=10):
-    json = _query(query, {"maxInfo" : str(max_info)})
+    json = _query(query, {"maxInfos" : str(max_info)})
     departures = []
     if json:
         for dep in json["departures"]:

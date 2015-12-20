@@ -38,7 +38,7 @@ class Departure:
         self.realtime = realtime
         self.traction = traction
         self.time = self._str_to_time(time)
-	self.stopPosition = stopPosition
+        self.stopPosition = stopPosition
 
     def _str_to_time(self, timestr):
         """ _str_to_time converts a time string as given in the API response to da datetime.datetime """

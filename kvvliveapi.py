@@ -29,7 +29,7 @@ class Stop:
 
 
 class Departure:
-    def __init__(self, route, destination, direction, time, lowfloor, realtime, traction):
+    def __init__(self, route, destination, direction, time, lowfloor, realtime, traction, stopPosition):
         self.route = route
         self.destination = destination
         self.direction = direction
@@ -38,6 +38,7 @@ class Departure:
         self.realtime = realtime
         self.traction = traction
         self.time = self._str_to_time(time)
+        self.stopPosition = stopPosition
 
     def _str_to_time(self, timestr):
         """ _str_to_time converts a time string as given in the API response to da datetime.datetime """
@@ -71,7 +72,7 @@ class Departure:
         time = json["time"]
         if time == "0":
             time = "sofort"
-        return Departure(json["route"], json["destination"], json["direction"], time, json["lowfloor"], json["realtime"], json["traction"])
+        return Departure(json["route"], json["destination"], json["direction"], time, json["lowfloor"], json["realtime"], json["traction"], json["stopPosition"])
 
     def pretty_format(self, alwaysrelative=False):
         if alwaysrelative and self.timestr != "sofort":
@@ -129,7 +130,7 @@ def search_by_stop_id(stop_id):
     return [Stop.from_json(_query("stops/bystop/" + stop_id))]
 
 def _get_departures(query, max_info=10):
-    json = _query(query, {"maxInfo" : str(max_info)})
+    json = _query(query, {"maxInfos" : str(max_info)})
     departures = []
     if json:
         for dep in json["departures"]:

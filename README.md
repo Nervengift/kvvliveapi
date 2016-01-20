@@ -7,6 +7,8 @@ Wenn jemand bindings für andere Sprachen schreiben will: hier die Dokumentation
 
 Bindings für PHP gibts [hier](https://github.com/MartinLoeper/KVV-PHP-unofficial-).
 
+Eine Shopify Dashing Beispielumsetzung [hier] (https://github.com/anthu/kvv-departure-dashboard).
+
 API Dokumentation
 =================
 
@@ -46,4 +48,3 @@ Die Anfrage ist *API_BASE/departures/bystop/HALTESTELLEN_ID?maxInfos=10&key=API_
 ###Abfahrt nach Haltestelle und Linie
 
 Die Anfrage ist *API_BASE/departures/byroute/LINIE/HALTESTELLEN_ID?maxInfos=10&key=API_KEY* (LINIE ist z.B. *S2*, Haltestelle wie oben)
-

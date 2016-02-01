@@ -41,6 +41,8 @@ Diese Suche liefert nur das Haltestellen-JSON OHNE das Objekt mit dem *stops*-At
 
 Das JSON hat auf der obersten Ebene die Attribute *timestamp*, *stopName* und *departures*. Letzeres enthält eine Liste von Abfahrten mit den Attributen *route* (Linie), *destination*, *direction* (1 oder 2), *time*, *lowfloor* (true oder false), *realtime* (ob Echtzeitwerte vorhanden sind), und *traction* (0 oder 2, Doppeltraktion???).
 
+*direction* bezieht sich auf die Richtung der Linie, nicht der Haltestelle. Beispielsweise fahren an der Haltestelle Werderstraße Bahnen mit *direction*  1 oder 2 in Richtung Hauptbahnhof.
+
 ###Abfahrt nach Haltestelle
 
 Die Anfrage ist *API_BASE/departures/bystop/HALTESTELLEN_ID?maxInfos=10&key=API_KEY* (ersetze HALTESTELLEN_ID durch die ID der gewünschten Haltestelle, *maxInfos* kann ebenfalls angepasst werden)

@@ -14,7 +14,7 @@ import re
 import sys
 
 API_KEY = "377d840e54b59adbe53608ba1aad70e8"
-API_BASE = "http://live.kvv.de/webapp/"
+API_BASE = "https://live.kvv.de/webapp/"
 
 class Stop:
     def __init__(self, name, stop_id, lat, lon):

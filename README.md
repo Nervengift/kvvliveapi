@@ -5,9 +5,11 @@ Python Bindings für die API, die von der KVV Live Webapp benutzt wird.
 
 Wenn jemand bindings für andere Sprachen schreiben will: hier die Dokumentation der API. Andere bindings würde ich auch gerne hier verlinken :)
 
-Bindings für PHP gibts [hier](https://github.com/MartinLoeper/KVV-PHP-unofficial-).
+Andere Sprachen und Anwendungen:
 
-Eine Shopify Dashing Beispielumsetzung [hier] (https://github.com/anthu/kvv-departure-dashboard).
+* [Bindings für PHP](https://github.com/MartinLoeper/KVV-PHP-unofficial-)
+* [Eine Shopify Dashing Beispielumsetzung](https://github.com/anthu/kvv-departure-dashboard)
+* [Ein Modul für den MagicMirror²](https://github.com/yo-less/MMM-KVV)
 
 API Dokumentation
 =================

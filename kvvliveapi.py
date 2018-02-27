@@ -28,7 +28,7 @@ class Stop:
         return Stop(json["name"], json["id"], json["lat"], json["lon"])
 
     def __repr__(self):
-        return 'Stop(name={}, stop_id={}, lat={}, lon={})'.format(
+        return "Stop(name={}, stop_id={}, lat={}, lon={})".format(
             self.name, self.stop_id, self.lat, self.lon
         )
 
@@ -88,7 +88,7 @@ class Departure:
         return timestr + ("  " if self.realtime else "* ") + (" " if timestr != "sofort" else "") + self.route + " " + self.destination
 
     def __repr__(self):
-        return 'Departure(route={}, destination={}, direction={}, time={})'\
+        return "Departure(route={}, destination={}, direction={}, time={})"\
             .format(self.route, self.destination, self.direction, self.time)
 
 

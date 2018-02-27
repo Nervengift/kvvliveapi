@@ -87,6 +87,10 @@ class Departure:
             timestr = self.timestr
         return timestr + ("  " if self.realtime else "* ") + (" " if timestr != "sofort" else "") + self.route + " " + self.destination
 
+    def __repr__(self):
+        return 'Departure(route={}, destination={}, direction={}, time={})'\
+            .format(self.route, self.destination, self.direction, self.time)
+
 
 def _query(path, params = {}):
     params["key"] = API_KEY

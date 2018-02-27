@@ -27,6 +27,11 @@ class Stop:
     def from_json(json):
         return Stop(json["name"], json["id"], json["lat"], json["lon"])
 
+    def __repr__(self):
+        return 'Stop(name={}, stop_id={}, lat={}, lon={})'.format(
+            self.name, self.stop_id, self.lat, self.lon
+        )
+
 
 class Departure:
     def __init__(self, route, destination, direction, time, lowfloor, realtime, traction, stopPosition):

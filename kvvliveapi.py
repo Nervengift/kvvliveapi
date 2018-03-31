@@ -27,6 +27,11 @@ class Stop:
     def from_json(json):
         return Stop(json["name"], json["id"], json["lat"], json["lon"])
 
+    def __repr__(self):
+        return "Stop(name={}, stop_id={}, lat={}, lon={})".format(
+            self.name, self.stop_id, self.lat, self.lon
+        )
+
 
 class Departure:
     def __init__(self, route, destination, direction, time, lowfloor, realtime, traction, stopPosition):
@@ -81,6 +86,10 @@ class Departure:
         else:
             timestr = self.timestr
         return timestr + ("  " if self.realtime else "* ") + (" " if timestr != "sofort" else "") + self.route + " " + self.destination
+
+    def __repr__(self):
+        return "Departure(route={}, destination={}, direction={}, time={})"\
+            .format(self.route, self.destination, self.direction, self.time)
 
 
 def _query(path, params = {}):

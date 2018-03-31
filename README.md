@@ -1,5 +1,7 @@
 # kvvliveapi
 
+`pip install kvvliveapi`
+
 Python Bindings für die API, die von der KVV Live Webapp benutzt wird.
 
 Wenn jemand bindings für andere Sprachen schreiben will: hier die Dokumentation der API. Andere bindings würde ich auch gerne hier verlinken :)

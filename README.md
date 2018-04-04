@@ -10,6 +10,7 @@ Andere Sprachen und Anwendungen:
 
 * [Bindings für PHP](https://github.com/MartinLoeper/KVV-PHP-unofficial-)
 * [Bindings für Rust](https://github.com/nervengift/kvvliveapi-rs) (auch von mir)
+* [Bindings für Ruby](https://github.com/julianschuh/kvvliveapi)
 * [Eine Shopify Dashing Beispielumsetzung](https://github.com/anthu/kvv-departure-dashboard)
 * [Ein Modul für den MagicMirror²](https://github.com/yo-less/MMM-KVV)
 

@@ -95,7 +95,7 @@ class Departure:
 def _query(path, params = {}):
     params["key"] = API_KEY
     url = API_BASE + path + "?" + urlencode(params)
-    #print(url)
+    print(url)
     req = _urllib.Request(url)
 
     #try:

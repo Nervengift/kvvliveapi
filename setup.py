@@ -2,8 +2,9 @@ from setuptools import setup
 
 setup(
     name='kvvliveapi',
-    version='0.1.0',
-    scripts=['kvvliveapi.py'],
+    version='0.1.1',
+    scripts=['kvvliveapi/kvvliveapi.py'],
+    packages=['kvvliveapi'],
 
     author='Nervengift',
     author_email='github@nervengiftlabs.de',

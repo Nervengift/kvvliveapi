@@ -77,7 +77,14 @@ class Departure:
         time = json["time"]
         if time == "0":
             time = "sofort"
-        return Departure(json["route"], json["destination"], json["direction"], time, json["lowfloor"], json["realtime"], json["traction"], json["stopPosition"])
+        
+        # stopPosition either has been banned from json or is not defined for all stops
+        if "stopPosition" in json:
+            stopPosition = json["stopPosition"]
+        else:
+            stopPosition = None
+
+        return Departure(json["route"], json["destination"], json["direction"], time, json["lowfloor"], json["realtime"], json["traction"], stopPosition)
 
     def pretty_format(self, alwaysrelative=False):
         if alwaysrelative and self.timestr != "sofort":

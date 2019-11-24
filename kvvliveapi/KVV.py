@@ -77,7 +77,7 @@ class Departure:
         time = json["time"]
         if time == "0":
             time = "sofort"
-        
+
         # stopPosition either has been banned from json or is not defined for all stops
         if "stopPosition" in json:
             stopPosition = json["stopPosition"]
@@ -156,43 +156,19 @@ def _get_departures(query, max_info=10):
 
 def get_departures(stop_id, max_info=10):
     """ Return a list of Departure objects for a given stop stop_id
-        optionally set the maximum number of entries 
+        optionally set the maximum number of entries
     """
     return _get_departures("departures/bystop/" + stop_id, max_info)
 
 def get_departures_by_route(stop_id, route, max_info=10):
     """ Return a list of Departure objects for a given stop stop_id and route
-        optionally set the maximum number of entries 
+        optionally set the maximum number of entries
     """
     return _get_departures("departures/byroute/" + route + "/" + stop_id, max_info)
 
-def _errorstring(e):
+def errorstring(e):
     if hasattr(e, "code"):
         return {400: "invalid stop id or route",
                 404: "not found"}.get(e.code, "http error " + str(e.code))
     else:
         return "unknown error"
-
-
-if __name__ == "__main__":
-    try:
-        if len(sys.argv) == 3 and sys.argv[1] == "search":
-            if sys.argv[2].startswith("de:"):
-                for stop in search_by_stop_id(sys.argv[2]):
-                    print(stop.name + " (" + stop.stop_id + ")")
-            else:
-                for stop in search_by_name(sys.argv[2]):
-                    print(stop.name + " (" + stop.stop_id + ")")
-        elif len(sys.argv) == 4 and sys.argv[1] == "search":
-            for stop in search_by_latlon(sys.argv[2], sys.argv[3]):
-                print(stop.name + " (" + stop.stop_id + ")")
-        elif len(sys.argv) == 3 and sys.argv[1] == "departures":
-            for dep in get_departures(sys.argv[2]):
-                print(dep.pretty_format())
-        elif len(sys.argv) == 4 and sys.argv[1] == "departures":
-            for dep in get_departures_by_route(sys.argv[2], sys.argv[3]):
-                print(dep.pretty_format())
-        else:
-            print("No such command. Try \"search <name>/<stop_id>/<lat> <lon>\" or \"departures <stop stop_id> [<route>]\"")
-    except IOError as e:
-       sys.stderr.write("{}\n".format(_errorstring(e)));

@@ -25,13 +25,13 @@ if __name__ == "__main__":
     if arguments['search'] and arguments['<station>']:
         if arguments['<station>'].startswith('de:'):
             for stop in search_by_stop_id(arguments['<station>']):
-                print(stop.name + " (" + stop.stop_id + ")")
+                print('{} ({})'.format(stop.name, stop.stop_id))
         else:
             for stop in search_by_name(arguments['<station>']):
-                print(stop.name + " (" + stop.stop_id + ")")
+                print('{} ({})'.format(stop.name, stop.stop_id))
     elif arguments['search'] and arguments['<lat>'] and arguments['<lon>']:
         for stop in search_by_latlon(arguments['<lat>'], arguments['<lon>']):
-            print(stop.name + " (" + stop.stop_id + ")")
+            print('{} ({})'.format(stop.name, stop.stop_id))
     elif arguments['departures'] and arguments['<station>']:
         if arguments['<line>']:
             for dep in get_departures_by_route(arguments['<station>'], arguments['<line>']):

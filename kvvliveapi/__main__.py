@@ -3,13 +3,15 @@
 Usage:
     kvvliveapi search <station>
     kvvliveapi search <lat> <lon>
-    kvvliveapi departures <station>
-    kvvliveapi departures <station> <line>
+    kvvliveapi departures <station> [options]
+    kvvliveapi departures <station> <line> [options]
     kvvliveapi (-v | --version | -h | --help)
 
 Options:
-  -h --help         Show this screen.
-  -v --version      Show version.
+  --always-relative     Always display realtive time. [default: False]
+
+  -h --help             Show this screen.
+  -v --version          Show version.
 
 """
 
@@ -33,7 +35,7 @@ if __name__ == "__main__":
     elif arguments['departures'] and arguments['<station>']:
         if arguments['<line>']:
             for dep in get_departures_by_route(arguments['<station>'], arguments['<line>']):
-                print(dep.pretty_format())
+                print(dep.pretty_format(arguments['--always-relative']))
         else:
             for dep in get_departures(arguments['<station>']):
-                print(dep.pretty_format())
+                print(dep.pretty_format(arguments['--always-relative']))

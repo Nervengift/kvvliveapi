@@ -17,7 +17,7 @@ Options:
 
 VERSION = '0.1.4'
 
-from kvvliveapi.docopt import docopt
+from docopt import docopt
 from kvvliveapi.KVV import *
 
 if __name__ == "__main__":

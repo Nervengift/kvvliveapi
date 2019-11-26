@@ -8,5 +8,6 @@ setuptools.setup(
     author_email='github@nervengiftlabs.de',
     description='KVV live API bindings',
     keywords='kvv api',
-    url='https://github.com/Nervengift/kvvliveapi'
+    url='https://github.com/Nervengift/kvvliveapi',
+    install_requires=['docopt']
 )

@@ -1,14 +1,8 @@
 #!/usr/bin/env python
 # author: Clemens "Nervengift"
 
-try:
-    import urllib.request as _urllib
-    from urllib.parse import quote_plus,urlencode
-except ImportError:
-    import urllib2 as _urllib
-    from urllib import quote_plus,urlencode
 import re
-import json
+import requests
 from datetime import datetime, timedelta
 
 API_KEY = "377d840e54b59adbe53608ba1aad70e8"
@@ -104,22 +98,9 @@ class Departure:
 
 def _query(path, params={}):
     params["key"] = API_KEY
-    url = API_BASE + path + "?" + urlencode(params)
-    req = _urllib.Request(url)
+    response = requests.get("{}{}".format(API_BASE, path), params=params)
+    return response.json()
 
-    #try:
-    handle = _urllib.urlopen(req)
-    #except IOError as e:
-    #    if hasattr(e, "code"):
-    #        if e.code != 403:
-    #            print("We got another error")
-    #            print(e.code)
-    #        else:
-    #            print(e.headers)
-    #            print(e.headers["www-authenticate"])
-    #    return None; #TODO: Schoenere Fehlerbehandlung
-
-    return json.loads(handle.read().decode("utf8"))
 
 def _search(query):
     json = _query(query) or []

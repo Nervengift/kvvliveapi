@@ -124,17 +124,21 @@ def _get_departures(query, max_info=10):
     return [Departure.from_json(dep) for dep in json["departures"]]
 
 
-def get_departures(stop_id, max_info=10):
+def get_departures(stop_id, route=None, max_info=10):
     """ Return a list of Departure objects for a given stop stop_id
         optionally set the maximum number of entries
     """
+    if route is not None:
+        return _get_departures("departures/byroute/{}/{}".format(route, stop_id), max_info)
     return _get_departures("departures/bystop/" + stop_id, max_info)
 
-def get_departures_by_route(stop_id, route, max_info=10):
 
+def get_departures_by_route(stop_id, route=None, max_info=10):
     """ Return a list of Departure objects for a given stop stop_id and route
         optionally set the maximum number of entries
     """
+    if route is None:
+        return _get_departures("departures/bystop/" + stop_id, max_info)
     return _get_departures("departures/byroute/{}/{}".format(route, stop_id), max_info)
 
 

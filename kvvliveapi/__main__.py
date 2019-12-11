@@ -8,10 +8,11 @@ Usage:
     kvvliveapi (-v | --version | -h | --help)
 
 Options:
-  --always-relative     Always display realtive time. [default: False]
+  --always-relative         Always display realtive time. [default: False]
+  --limit-results <lim>     Limits the number of results to show [default: 10]
 
-  -h --help             Show this screen.
-  -v --version          Show version.
+  -h --help                 Show this screen.
+  -v --version              Show version.
 
 """
 
@@ -33,5 +34,7 @@ if __name__ == "__main__":
         for stop in search_by_latlon(arguments['<lat>'], arguments['<lon>']):
             print('{} ({})'.format(stop.name, stop.stop_id))
     elif arguments['departures'] and arguments['<station>']:
-        for dep in get_departures(arguments['<station>'], arguments['<line>']):
+        for dep in get_departures(arguments['<station>'],
+                                  arguments['<line>'],
+                                  arguments['--limit-results']):
             print(dep.pretty_format(arguments['--always-relative']))

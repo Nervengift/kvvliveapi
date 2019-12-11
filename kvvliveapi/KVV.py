@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # author: Clemens "Nervengift"
 
-import re
 import requests
 from datetime import datetime, timedelta
 
@@ -38,30 +37,22 @@ class Departure:
 
     def _str_to_time(self, timestr):
         """ _str_to_time converts a time string as given in the API response to da datetime.datetime """
-        time = datetime.now()
+        now = datetime.now()
 
-        # "0" ("sofort")
-        if timestr == "sofort":
-            return time
+        try:
+            now += datetime.strptime(timestr, '%M min') - datetime(1900, 1, 1)
+        except ValueError:  # timestr is not formatted as "xx min"
+            pass
 
-        # "5 min"
-        re_min = re.compile("^([1-9]) min$")
-        match = re_min.match(timestr)
-        if match:
-            time += timedelta(minutes=int(match.group(1)))
-            return time
+        try:
+            time = datetime.strptime(timestr, '%H:%M') - datetime(1900, 1, 1)
+        except ValueError:  # timestr is not formatted as "hour:min"
+            pass
+        else:  # Get the elapsed time since midnight and add up to 24h.
+            since_midnight = now - now.replace(hour=0, minute=0, second=0, microsecond=0)
+            now += (time-since_midnight-timedelta(days=1)) % timedelta(days=1)
 
-        # 14:23
-        re_time = re.compile("^([0-2]?[0-9]):([0-5][0-9])$")
-        match = re_time.match(timestr)
-        if match:
-            hours = int(match.group(1))
-            mins = int(match.group(2))
-            time_new = time.replace(hour=hours, minute=mins)
-            if time_new < time:
-                time_new += timedelta(days=1)
-            time = time_new
-            return time
+        return now
 
     @staticmethod
     def from_json(json):

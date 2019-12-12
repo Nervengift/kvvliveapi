@@ -90,12 +90,19 @@ class Departure:
 def _query(path, params={}):
     params["key"] = API_KEY
     response = requests.get("{}{}".format(API_BASE, path), params=params)
-    return response.json()
+
+    try:
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        print("Error: {}".format(e))
+        return False
+    else:
+        return response.json()
 
 
 def _search(query):
-    json = _query(query) or []
-    return [Stop.from_json(stop) for stop in json["stops"]]
+    data = _query(query) or {"stops": []}
+    return [Stop.from_json(stop) for stop in data.get("stops", [data])]
 
 
 def search_by_name(name):
@@ -116,12 +123,12 @@ def search_by_stop_id(stop_id):
     """ Search for a stop by its stop_id
         returns a list that should contain only one stop
     """
-    return [Stop.from_json(_query("stops/bystop/{}".format(stop_id)))]
+    return _search("stops/bystop/{}".format(stop_id))
 
 
 def _get_departures(query, max_info=10):
-    json = _query(query, {"maxInfos": str(max_info)}) or []
-    return [Departure.from_json(dep) for dep in json["departures"]]
+    data = _query(query, {"maxInfos": str(max_info)}) or {}
+    return [Departure.from_json(dep) for dep in data.get("departures", [])]
 
 
 def get_departures(stop_id, route=None, max_info=10):

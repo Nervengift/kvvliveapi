@@ -13,6 +13,7 @@ Andere Sprachen und Anwendungen:
 * [Bindings für Ruby](https://github.com/julianschuh/kvvliveapi)
 * [Eine Shopify Dashing Beispielumsetzung](https://github.com/anthu/kvv-departure-dashboard)
 * [Ein Modul für den MagicMirror²](https://github.com/yo-less/MMM-KVV)
+* [ESP-Modul mit farbigem ePaper-Display](https://github.com/harbaum/kvv)
 
 # API Dokumentation
 

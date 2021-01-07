@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='kvvliveapi',
-    version='0.1.4',
+    version='0.2.0',
     packages=setuptools.find_packages(),
     author='Nervengift',
     author_email='github@nervengiftlabs.de',

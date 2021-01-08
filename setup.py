@@ -9,5 +9,5 @@ setuptools.setup(
     description='KVV live API bindings',
     keywords='kvv api',
     url='https://github.com/Nervengift/kvvliveapi',
-    install_requires=['docopt', requests]
+    install_requires=['docopt', 'requests']
 )

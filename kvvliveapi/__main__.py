@@ -24,12 +24,8 @@ from kvvliveapi.KVV import *
 if __name__ == "__main__":
     arguments = docopt(__doc__, version=VERSION)
     if arguments['search'] and arguments['<station>']:
-        if arguments['<station>'].startswith('de:'):
-            for stop in search_by_stop_id(arguments['<station>']):
-                print('{} ({})'.format(stop.name, stop.stop_id))
-        else:
-            for stop in search_by_name(arguments['<station>']):
-                print('{} ({})'.format(stop.name, stop.stop_id))
+        for stop in search_by_name(arguments['<station>']):
+            print('{} ({})'.format(stop.name, stop.stop_id))
     elif arguments['search'] and arguments['<lat>'] and arguments['<lon>']:
         for stop in search_by_latlon(arguments['<lat>'], arguments['<lon>']):
             print('{} ({})'.format(stop.name, stop.stop_id))

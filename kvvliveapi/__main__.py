@@ -16,7 +16,7 @@ Options:
 
 """
 
-VERSION = '0.2.0'
+VERSION = '0.2.1'
 
 from docopt import docopt
 from kvvliveapi.KVV import *

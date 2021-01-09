@@ -151,11 +151,3 @@ def get_departures_by_route(stop_id, route=None, max_info=10):
     if route is None:
         return _get_departures("departures/bystop/" + stop_id, max_info)
     return _get_departures("departures/byroute/{}/{}".format(route, stop_id), max_info)
-
-
-def errorstring(e):
-    if hasattr(e, "code"):
-        return {400: "invalid stop id or route",
-                404: "not found"}.get(e.code, "http error " + str(e.code))
-    else:
-        return "unknown error"

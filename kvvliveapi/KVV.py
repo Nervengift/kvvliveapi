@@ -105,11 +105,13 @@ def _search(query):
     return [Stop.from_json(stop) for stop in data.get("stops", [data])]
 
 
-def search_by_name(name):
-    """ Search for stops by name
+def search_by_name(searchstring):
+    """ Search for stops by name or by stop id
         returns a list of Stop objects
     """
-    return _search("stops/byname/" + requests.utils.requote_uri(name))
+    if searchstring.startswith("de:"):
+        return _search("stops/bystop/{}".format(searchstring))
+    return _search("stops/byname/" + requests.utils.requote_uri(searchstring))
 
 
 def search_by_latlon(lat, lon):
@@ -119,11 +121,13 @@ def search_by_latlon(lat, lon):
     return _search("stops/bylatlon/{}/{}".format(lat, lon))
 
 
-def search_by_stop_id(stop_id):
-    """ Search for a stop by its stop_id
+def search_by_stop_id(searchstring):
+    """ Search for a stop by its stop_id or by name
         returns a list that should contain only one stop
     """
-    return _search("stops/bystop/{}".format(stop_id))
+    if not searchstring.startswith("de:"):
+        return _search("stops/byname/" + requests.utils.requote_uri(searchstring))
+    return _search("stops/bystop/{}".format(searchstring))
 
 
 def _get_departures(query, max_info=10):
@@ -147,11 +151,3 @@ def get_departures_by_route(stop_id, route=None, max_info=10):
     if route is None:
         return _get_departures("departures/bystop/" + stop_id, max_info)
     return _get_departures("departures/byroute/{}/{}".format(route, stop_id), max_info)
-
-
-def errorstring(e):
-    if hasattr(e, "code"):
-        return {400: "invalid stop id or route",
-                404: "not found"}.get(e.code, "http error " + str(e.code))
-    else:
-        return "unknown error"

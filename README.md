@@ -33,12 +33,15 @@ Die Anfrage ist *API_BASE/stops/bylatlon/LAT/LON?key=API_KEY* (ersetze LAT und L
 
 Die Anfrage ist *API_BASE/stops/byname/NAME?key=API_KEY* (ersetze NAME durch die gesuchten Haltestellennamen (url-Encoding nicht vergessen))
 
+### Alle Haltestellen
+
+Die Anfrage ist API_BASE/stops/all und gibt alle bekannten Haltestellen zurück.
+
 ### Suche nach Haltestellen-ID
 
 Die Anfrage ist *API_BASE/stops/bystop/HALTESTELLEN_ID?key=API_KEY* (ersetze HALTESTELLEN_ID durch die ID der gewünschten Haltestelle)
 
 Diese Suche liefert nur das Haltestellen-JSON OHNE das Objekt mit dem *stops*-Attribut drum herum.
-
 
 ## Abfahrtszeiten
 

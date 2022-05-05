@@ -1,3 +1,9 @@
+# currently OUT OF DATE!
+
+The API seems to have been changed completely, see https://github.com/Nervengift/kvvliveapi/issues/19
+
+Can't promise a timely update, contributions are welcome.
+
 # kvvliveapi
 
 `pip install kvvliveapi`
